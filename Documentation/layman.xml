@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <repositories version="1.0">
   <repo priority="50" quality="experimental" status="unofficial">
-    <name>dotnet</name>
+    <name>9999-ebuilds</name>
     <description>bleeding source code ebuilds</description>
     <homepage>http://github.com/9999-ebuilds</homepage>
     <owner>
