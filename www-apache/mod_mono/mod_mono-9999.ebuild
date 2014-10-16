@@ -2,16 +2,18 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/www-apache/mod_mono/mod_mono-9999.ebuild,v 1.2 2009/06/09 21:16:53 loki_val Exp $
 
-EAPI=2
+EAPI="5"
 
 # DRAGONS: Watch the order of these.
 
-inherit apache-module multilib eutils go-mono mono
+inherit apache-module
 
 KEYWORDS=""
 
-DESCRIPTION="Apache module for Mono."
-HOMEPAGE="http://www.go-mono.com/"
+DESCRIPTION="mod_mono is an Apache 2.0+ module that provides ASP.NET functionality."
+HOMEPAGE="https://github.com/mono/mod_mono \
+          http://mono-project.com/Mod_mono"
+#SRC_URI=
 LICENSE="Apache-2.0"
 SLOT="0"
 IUSE="aspnet2 debug"
