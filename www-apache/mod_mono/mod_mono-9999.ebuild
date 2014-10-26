@@ -6,18 +6,21 @@ EAPI="5"
 
 # DRAGONS: Watch the order of these.
 
-inherit apache-module
+inherit apache-module git-2
 
 KEYWORDS=""
 
 DESCRIPTION="mod_mono is an Apache 2.0+ module that provides ASP.NET functionality."
 HOMEPAGE="https://github.com/mono/mod_mono \
           http://mono-project.com/Mod_mono"
+EGIT_REPO_URI="git://github.com/mono/${PN}.git"
+EGIT_HAS_SUBMODULES="false" 
+
 #SRC_URI=
 LICENSE="Apache-2.0"
 SLOT="0"
 IUSE="aspnet2 debug"
-DEPEND="=dev-dotnet/xsp-${GO_MONO_REL_PV}*"
+DEPEND="dev-dotnet/xsp"
 RDEPEND="${DEPEND}"
 
 APACHE2_MOD_CONF="2.2/70_${PN}"

@@ -16,10 +16,8 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND=">=dev-lang/mono-3.0.1
-	>=dev-dotnet/gconf-sharp-2.24.0
 	>=dev-dotnet/glade-sharp-2.12.9
 	>=dev-dotnet/gnome-sharp-2.24.0
-	>=dev-dotnet/gnomevfs-sharp-2.24.0
 	>=dev-dotnet/gtk-sharp-2.12.9
 	>=dev-dotnet/mono-addins-0.6[gtk]
 	>=dev-dotnet/xsp-2

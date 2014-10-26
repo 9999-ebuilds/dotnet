@@ -16,9 +16,6 @@ IUSE="debug"
 
 RESTRICT="test"
 
-#	dev-dotnet/gnomevfs-sharp
-#	dev-dotnet/gconf-sharp
-#	dev-dotnet/art-sharp
 
 
 RDEPEND="
@@ -27,6 +24,9 @@ RDEPEND="
 	gnome-base/libgnomecanvas
 	gnome-base/libgnomeui
 	media-libs/libart_lgpl
+	!dev-dotnet/gnomevfs-sharp
+	!dev-dotnet/gconf-sharp
+	!dev-dotnet/art-sharp
 	"
 DEPEND="${RDEPEND}
 	sys-devel/automake:1.11"
