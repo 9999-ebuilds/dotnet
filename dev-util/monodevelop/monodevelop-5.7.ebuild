@@ -13,7 +13,7 @@ EGIT_MASTER="master"
 EGIT_NONBARE="keep-files"
 
 LICENSE="GPL-2"
-SLOT="0"
+SLOT="570"
 KEYWORDS=""
 IUSE="git subversion sql"
 
@@ -44,6 +44,10 @@ DEPEND="${RDEPEND}
 
 MAKEOPTS="${MAKEOPTS} -j1" #nowarn
 
+#src_prepare() {
+#	einfo remove PreBuild section for NUnit.csproj and NUnitRunner.csproj
+#}
+
 src_configure() {
 # econf \
 #  --disable-update-mimedb \
@@ -52,9 +56,10 @@ src_configure() {
 #  --enable-gnomeplatform \
 #     $(use_enable subversion) \
 #     $(use_enable git)
+  einfo EXTRA_ECONF="${EXTRA_ECONF}"
 
-    einfo EXTRA_ECONF="${EXTRA_ECONF}"
-	./configure	${EXTRA_ECONF} || die
+  ./configure ${EXTRA_ECONF} \
+     || die
 }
 
 pkg_preinst() {
