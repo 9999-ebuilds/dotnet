@@ -3,6 +3,8 @@
 <pkgmetadata>
   <herd>dotnet</herd>
   <use>
+	<flag name='sql'>Enable database addin</flag>
 	<flag name='git'>Enable Git version control support</flag>
+	<flag name='subversion'>Enable Subversion version control support</flag>
   </use>
 </pkgmetadata>

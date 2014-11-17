@@ -1,28 +1,28 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI="5"
 AUTOTOOLS_PRUNE_LIBTOOL_FILES="all"
 
-inherit linux-info mono-env flag-o-matic pax-utils autotools-utils git-r3
+inherit eutils linux-info mono-env flag-o-matic pax-utils autotools-utils git-r3
 
 DESCRIPTION="Mono runtime and class libraries, a C# compiler/interpreter"
 HOMEPAGE="http://www.mono-project.com/Main_Page"
 
 EGIT_REPO_URI="https://github.com/ArsenShnurkov/mono.git"
-EGIT_HAS_SUBMODULES="true"
-#EGIT_NOTBARE="non-empty"
-FEATURES="+keepwork"
 
 LICENSE="MIT LGPL-2.1 GPL-2 BSD-4 NPL-1.1 Ms-PL GPL-2-with-linking-exception IDPL"
-SLOT="0"
-KEYWORDS=""
-IUSE="minimal pax_kernel xen doc"
+SLOT="369"
+
+KEYWORDS="~amd64 ~ppc ~ppc64 ~x86 ~amd64-linux"
+
+IUSE="nls minimal pax_kernel xen doc debug"
 
 COMMONDEPEND="
 	!minimal? ( >=dev-dotnet/libgdiplus-2.10 )
 	ia64? (	sys-libs/libunwind )
+	nls? ( sys-devel/gettext )
 "
 RDEPEND="${COMMONDEPEND}
 	|| ( www-client/links www-client/lynx )
@@ -46,9 +46,9 @@ pkg_setup() {
 }
 
 src_prepare() {
-	cat "${S}/mono/mini/Makefile.am.in" > "${S}/mono/mini/Makefile.am" || die
+#	cat "${S}/mono/mini/Makefile.am.in" > "${S}/mono/mini/Makefile.am" || die
+#	eautoreconf
 
-	eautoreconf
 	# we need to sed in the paxctl-ng -mr in the runtime/mono-wrapper.in so it don't
 	# get killed in the build proces when MPROTEC is enable. #286280
 	# RANDMMAP kill the build proces to #347365
@@ -92,21 +92,35 @@ src_configure() {
 		--with-profile4
 		--with-sgen=$(usex ppc no yes)
 		$(use_with doc mcs-docs)
+		$(use_enable debug)
+		$(use_enable nls)
 	)
 
 	autotools-utils_src_configure
+	
+	# FIX for uncompilable 3.4.0 sources
+	FF="${WORKDIR}/mono-3.4.0/mcs/tools/xbuild/targets/Microsoft.Portable.Common.targets"
+	rm -f $FF
+	touch $FF
+	echo '<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">' >> $FF
+	echo '    <Import Project="..\\Microsoft.Portable.Core.props" />' >> $FF
+	echo '    <Import Project="..\\Microsoft.Portable.Core.targets" />' >> $FF
+	echo '</Project>' >> $FF
 }
 
-src_make() {
-	# Doesn't require previous mono to be installed
-	emake get-monolite-latest
-	emake EXTERNAL_MCS=${PWD}/mcs/class/lib/monolite/gmcs.exe "$@" || die "emake failed"
+src_compile() {
+	nonfatal autotools-utils_src_compile || {
+		eqawarn "maintainer of this ebuild has no idea why it fails. If you happen to know how to fix it - please let me know"
+		autotools-utils_src_compile
+	 }
 }
 
 src_test() {
-	emake check || die "tests fails"
+	cd mcs/tests || die
+	emake check
 }
 
+#install: cannot stat 'targets/Microsoft.Portable.Common.targets': No such file or directory
 src_install() {
 	autotools-utils_src_install
 
