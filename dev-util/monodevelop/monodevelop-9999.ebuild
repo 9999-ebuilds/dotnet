@@ -9,6 +9,8 @@ DESCRIPTION="Integrated Development Environment for .NET"
 HOMEPAGE="http://www.monodevelop.com/"
 
 EGIT_REPO_URI="git://github.com/mono/monodevelop.git"
+EGIT_MASTER="master"
+EGIT_NONBARE="keep-files"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -41,8 +43,12 @@ DEPEND="${RDEPEND}
 	x11-misc/shared-mime-info"
 
 MAKEOPTS="${MAKEOPTS} -j1" #nowarn
+src_prepare() {
+	# remove PreBuild section for NUnit.csproj and NUnitRunner.csproj
+}
+
 src_configure() {
-	./configure	|| die
+	./configure	--profile=core || die
 }
 
 pkg_preinst() {
