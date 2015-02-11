@@ -1,6 +1,8 @@
 9999-ebuilds unofficial overlay
 ===============================
 
+License: GPL v3
+
 Overlay Installation
 --------------------
 
